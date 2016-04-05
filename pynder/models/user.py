@@ -121,6 +121,7 @@ class Match(object):
         self._session = _session
         self.id = match["_id"]
         self.user, self.messages = None, []
+        self._match = match
         if 'person' in match:
             user_data = _session._api.user_info(
                 match['person']['_id'])['results']
@@ -128,6 +129,9 @@ class Match(object):
             self.user = User(user_data, _session)
             self.messages = [Message(m, user=self.user)
                              for m in match['messages']]
+    def update_messages(self):
+        self.messages = [Message(m, user=self.user)
+                         for m in self._match['messages']]
 
     def message(self, body):
         return self._session._api.message(self.id, body)['_id']
