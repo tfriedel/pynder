@@ -5,6 +5,10 @@ from pickle import dump, load
 from private import *
 import time
 
+# you need to create a file private.py
+# which contains these variables:
+#facebook_id = 1234567890123456
+#facebook_token = 'CAAGm0aksljdflkasjfdlkasjflkjaslkJALKSFKLJskfjalskdfjLKSJFLKSDJFLKSDFJLKFJSDLKFJLSKDFJLSKJFLKSJFDLKSD'
 
 def get_ping_time(user):
     time_format = '%Y-%m-%dT%H:%M:%S'
