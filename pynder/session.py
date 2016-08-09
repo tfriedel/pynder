@@ -28,8 +28,28 @@ class Session(object):
     def update_location(self, latitude, longitude):
         return self._api.ping(latitude, longitude)
 
-    def matches(self):
-        return [models.Match(m, self) for m in self._api.matches()]
+    def matches(self, since=None):
+        response = self._api.matches(since)
+        matches = []
+        for m in response:  # Filter to only new matches using "person"
+            if 'person' in m:
+                matches.append(models.Match(m, self))
+        return matches
+
+    def get_fb_friends(self):
+        """
+        Returns array of all friends using Tinder Social.
+        :return: Array of friends.
+        :rtype: models.Friend[]
+        """
+        response = self._api.fb_friends()
+        friends = response['results']
+        ret = []
+
+        for f in friends:
+            ret.append(models.Friend(f, self))
+
+        return ret
 
     @property
     def likes_remaining(self):
